@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Component Catalog + Canvas</title>
+  <title>PrimeReact Components</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -125,9 +125,9 @@
   <div class="sidebar">
     <h6>UI COMPONENTS</h6>
     <nav class="nav flex-column">
-      <a class="nav-link active" href="#">Button</a>
+      <a class="nav-link active" href="#" data-target="buttons-section">Button</a>
       <a class="nav-link" href="#">Form Layout</a>
-      <a class="nav-link" href="#">Input</a>
+      <a class="nav-link" href="#" data-target="inputs-section">Input</a>
       <a class="nav-link" href="#">Float Label</a>
       <a class="nav-link" href="#">Invalid State</a>
       <a class="nav-link" href="#">Dashboard</a>
@@ -152,11 +152,11 @@
   <div class="main-content">
     <div class="canvas-icon" id="canvas-icon">🖼</div>
 
+    <div id="buttons-section" class="main-section">
     <div class="section">
       <h5>Drag & Drop Dugmad</h5>
       <div class="draggable-component" draggable="true" data-html='<button class="btn btn-primary">Primary</button>'><button class="btn btn-primary">Primary</button></div>
       <div class="draggable-component" draggable="true" data-html='<button class="btn btn-danger">Danger</button>'><button class="btn btn-danger">Danger</button></div>
-      <div class="draggable-component" draggable="true" data-html='<input type="text" class="form-control" placeholder="Unesi tekst">'><input type="text" class="form-control" placeholder="Unesi tekst" style="width: 200px;"></div>
     </div>
 
     <div class="sections-grid">
@@ -283,9 +283,54 @@
       </div>
     </div>
     </div> <!-- end sections-grid -->
-  </div>
-</div>
+    </div> <!-- end buttons-section -->
 
+    <div id="inputs-section" class="main-section" style="display:none;">
+      <h4>Inputs</h4>
+      <div class="sections-grid">
+        <div class="section">
+          <h5>Basic</h5>
+          <div class="btn-group-wrap">
+            <input type="text" class="p-inputtext draggable-component" draggable="true" placeholder="Text" style="width: 150px;">
+            <input type="password" class="p-inputtext draggable-component" draggable="true" placeholder="Password" style="width: 150px;">
+          </div>
+        </div>
+
+        <div class="section">
+          <h5>Icons</h5>
+          <div class="btn-group-wrap">
+            <span class="p-input-icon-left draggable-component" draggable="true">
+              <i class="pi pi-search"></i>
+              <input type="text" class="p-inputtext" placeholder="Search" style="width: 150px;">
+            </span>
+            <span class="p-input-icon-right draggable-component" draggable="true">
+              <input type="text" class="p-inputtext" placeholder="Filter" style="width: 150px;">
+              <i class="pi pi-filter"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="section">
+          <h5>Text Area</h5>
+          <div class="btn-group-wrap">
+            <textarea class="p-inputtextarea draggable-component" draggable="true" rows="3" cols="30" placeholder="Your message"></textarea>
+          </div>
+        </div>
+
+        <div class="section">
+          <h5>Input Group</h5>
+          <div class="btn-group-wrap">
+            <div class="p-inputgroup draggable-component" draggable="true">
+              <span class="p-inputgroup-addon">@</span>
+              <input type="text" class="p-inputtext" placeholder="Username" style="width: 150px;">
+            </div>
+          </div>
+        </div>
+      </div> <!-- end inputs sections-grid -->
+    </div> <!-- end inputs-section -->
+
+  </div> <!-- end main-content -->
+</div> <!-- end component-view -->
 
 
 <div class="canvas-view" id="canvas-view">
@@ -302,6 +347,26 @@
   const componentView = document.getElementById("component-view");
   const canvasIcon = document.getElementById("canvas-icon");
   const componentsIcon = document.getElementById("components-icon");
+
+  const navLinks = document.querySelectorAll('.sidebar .nav-link[data-target]');
+
+  function showSection(id) {
+    document.querySelectorAll('.main-section').forEach(sec => {
+      sec.style.display = sec.id === id ? 'block' : 'none';
+    });
+    navLinks.forEach(link => {
+      link.classList.toggle('active', link.dataset.target === id);
+    });
+  }
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      showSection(link.dataset.target);
+    });
+  });
+
+  showSection('buttons-section');
 
 
   document.querySelectorAll(".draggable-component").forEach(el => {
