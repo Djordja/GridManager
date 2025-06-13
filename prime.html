@@ -15,7 +15,7 @@
     body { margin: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
     .view-selector { display: flex; height: 100vh; }
     .sidebar {
-      width: 260px;
+      width: 320px;
       background: #ffffff;
       border-right: 1px solid #ddd;
       padding: 1rem 0.5rem;
@@ -110,6 +110,12 @@
       position: absolute;
       bottom: 10px;
       right: 10px;
+      z-index: 10000;
+    }
+    .reset-button {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
       z-index: 10000;
     }
   </style>
@@ -285,6 +291,7 @@
 <div class="canvas-view" id="canvas-view">
   <div class="canvas" id="drop-zone"></div>
   <div class="components-icon" id="components-icon">📦</div>
+  <button class="btn btn-danger reset-button" onclick="resetCanvas()">Reset</button>
   <button class="btn btn-success export-button" onclick="exportCanvas()">Export HTML</button>
 </div>
 
@@ -358,6 +365,10 @@
       isDragging = false;
       el.style.zIndex = "1";
     });
+  }
+
+  function resetCanvas() {
+    dropZone.innerHTML = "";
   }
 
   function exportCanvas() {
