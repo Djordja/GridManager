@@ -133,23 +133,23 @@
     <h6>UI COMPONENTS</h6>
     <nav class="nav flex-column">
       <a class="nav-link active" href="#" data-target="buttons-section">Button</a>
-      <a class="nav-link" href="#">Form Layout</a>
+      <a class="nav-link" href="#" data-target="form-layout-section">Form Layout</a>
       <a class="nav-link" href="#" data-target="inputs-section">Input</a>
 
-      <a class="nav-link" href="#">Float Label</a>
-      <a class="nav-link" href="#">Invalid State</a>
-      <a class="nav-link" href="#">Dashboard</a>
+      <a class="nav-link" href="#" data-target="float-label-section">Float Label</a>
+      <a class="nav-link" href="#" data-target="invalid-state-section">Invalid State</a>
+      <a class="nav-link" href="#" data-target="dashboard-section">Dashboard</a>
       <a class="nav-link" href="#" data-target="table-section">Table</a>
-      <a class="nav-link" href="#">List</a>
-      <a class="nav-link" href="#">Tree</a>
-      <a class="nav-link" href="#">Panel</a>
-      <a class="nav-link" href="#">Overlay</a>
-      <a class="nav-link" href="#">Media</a>
-      <a class="nav-link" href="#">Menu</a>
-      <a class="nav-link" href="#">Message</a>
-      <a class="nav-link" href="#">File</a>
+      <a class="nav-link" href="#" data-target="list-section">List</a>
+      <a class="nav-link" href="#" data-target="tree-section">Tree</a>
+      <a class="nav-link" href="#" data-target="panel-section">Panel</a>
+      <a class="nav-link" href="#" data-target="overlay-section">Overlay</a>
+      <a class="nav-link" href="#" data-target="media-section">Media</a>
+      <a class="nav-link" href="#" data-target="menu-section">Menu</a>
+      <a class="nav-link" href="#" data-target="message-section">Message</a>
+      <a class="nav-link" href="#" data-target="file-section">File</a>
       <a class="nav-link" href="#" data-target="chart-section">Chart</a>
-      <a class="nav-link" href="#">Misc</a>
+      <a class="nav-link" href="#" data-target="misc-section">Misc</a>
     </nav>
     <h6 class="mt-3">PRIME BLOCKS</h6>
     <nav class="nav flex-column">
@@ -444,7 +444,185 @@
           </div>
         </div>
       </div> <!-- end chart sections-grid -->
-    </div> <!-- end chart-section -->
+      </div> <!-- end chart-section -->
+
+      <div id="form-layout-section" class="main-section" style="display:none;">
+        <h4>Form Layout</h4>
+        <div class="sections-grid">
+          <div class="section">
+            <h5>Simple Form</h5>
+            <form class="draggable-component" draggable="true" style="width: 250px;">
+              <div class="mb-2">
+                <label class="form-label">Email</label>
+                <input type="email" class="p-inputtext form-control" placeholder="email@example.com">
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Password</label>
+                <input type="password" class="p-inputtext form-control" placeholder="Password">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div id="float-label-section" class="main-section" style="display:none;">
+        <h4>Float Label</h4>
+        <div class="sections-grid">
+          <div class="section">
+            <h5>Example</h5>
+            <span class="p-float-label draggable-component" draggable="true">
+              <input id="float-input" type="text" class="p-inputtext">
+              <label for="float-input">Username</label>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div id="invalid-state-section" class="main-section" style="display:none;">
+        <h4>Invalid State</h4>
+        <div class="sections-grid">
+          <div class="section">
+            <h5>Invalid Input</h5>
+            <input type="text" class="p-inputtext p-invalid draggable-component" draggable="true" placeholder="Invalid">
+          </div>
+        </div>
+      </div>
+
+      <div id="dashboard-section" class="main-section" style="display:none;">
+        <h4>Dashboard</h4>
+        <div class="sections-grid">
+          <div class="section">
+            <h5>Card</h5>
+            <div class="card draggable-component" draggable="true" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="list-section" class="main-section" style="display:none;">
+        <h4>List</h4>
+        <div class="sections-grid">
+          <div class="section">
+            <h5>Unordered</h5>
+            <ul class="draggable-component list-group" draggable="true" style="width:200px;">
+              <li class="list-group-item">Item 1</li>
+              <li class="list-group-item">Item 2</li>
+              <li class="list-group-item">Item 3</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="tree-section" class="main-section" style="display:none;">
+        <h4>Tree</h4>
+        <div class="sections-grid">
+          <div class="section">
+            <h5>Example</h5>
+            <ul class="draggable-component" draggable="true">
+              <li>Root
+                <ul>
+                  <li>Child 1</li>
+                  <li>Child 2</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="panel-section" class="main-section" style="display:none;">
+        <h4>Panel</h4>
+        <div class="sections-grid">
+          <div class="section">
+            <h5>Simple Panel</h5>
+            <div class="p-panel p-component draggable-component" draggable="true" style="width: 200px;">
+              <div class="p-panel-header">Header</div>
+              <div class="p-panel-content">Content</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="overlay-section" class="main-section" style="display:none;">
+        <h4>Overlay</h4>
+        <div class="sections-grid">
+          <div class="section">
+            <h5>Modal</h5>
+            <div class="draggable-component" draggable="true">
+              <div class="modal fade" tabindex="-1" style="display:block; position:static; opacity:1;">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Modal title</h5>
+                    </div>
+                    <div class="modal-body">
+                      <p>Modal body text</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="media-section" class="main-section" style="display:none;">
+        <h4>Media</h4>
+        <div class="sections-grid">
+          <div class="section">
+            <h5>Image</h5>
+            <img src="https://via.placeholder.com/150" class="draggable-component" draggable="true" alt="placeholder"/>
+          </div>
+        </div>
+      </div>
+
+      <div id="menu-section" class="main-section" style="display:none;">
+        <h4>Menu</h4>
+        <div class="sections-grid">
+          <div class="section">
+            <h5>Simple Menu</h5>
+            <ul class="draggable-component list-group" draggable="true" style="width:150px;">
+              <li class="list-group-item">Home</li>
+              <li class="list-group-item">Profile</li>
+              <li class="list-group-item">Settings</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="message-section" class="main-section" style="display:none;">
+        <h4>Message</h4>
+        <div class="sections-grid">
+          <div class="section">
+            <h5>Info</h5>
+            <div class="alert alert-info draggable-component" draggable="true" style="width:200px;">Info Message</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="file-section" class="main-section" style="display:none;">
+        <h4>File</h4>
+        <div class="sections-grid">
+          <div class="section">
+            <h5>Upload</h5>
+            <input type="file" class="draggable-component" draggable="true"/>
+          </div>
+        </div>
+      </div>
+
+      <div id="misc-section" class="main-section" style="display:none;">
+        <h4>Misc</h4>
+        <div class="sections-grid">
+          <div class="section">
+            <h5>Placeholder</h5>
+            <span class="draggable-component" draggable="true">Misc component</span>
+          </div>
+        </div>
+      </div>
 
   </div> <!-- end main-content -->
 </div> <!-- end component-view -->
