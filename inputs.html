@@ -85,6 +85,9 @@
       position: absolute;
       cursor: move;
       user-select: none;
+      display: inline-block;
+      resize: both;
+      overflow: hidden;
     }
 
     .canvas-icon, .components-icon {
@@ -249,6 +252,9 @@
     wrapper.style.left = x + 'px';
     wrapper.style.top = y + 'px';
     dropZone.appendChild(wrapper);
+    const rect = wrapper.getBoundingClientRect();
+    wrapper.style.width = rect.width + 'px';
+    wrapper.style.height = rect.height + 'px';
     makeDraggable(wrapper);
   }
 
@@ -261,6 +267,10 @@
     let isDragging = false;
     let offsetX, offsetY;
     el.addEventListener("mousedown", function (e) {
+      const rect = el.getBoundingClientRect();
+      const isResizeZone =
+        rect.right - e.clientX < 10 || rect.bottom - e.clientY < 10;
+      if (isResizeZone) return;
       isDragging = true;
       offsetX = e.clientX - el.offsetLeft;
       offsetY = e.clientY - el.offsetTop;
@@ -278,6 +288,7 @@
     });
   }
 
+
   function resetCanvas() {
     dropZone.innerHTML = "";
   }
@@ -287,7 +298,7 @@
     let content = "";
     components.forEach(el => {
       const html = el.innerHTML;
-      const style = `style=\"position:absolute; left:${el.style.left}; top:${el.style.top};\"`;
+      const style = `style=\"position:absolute; left:${el.style.left}; top:${el.style.top}; width:${el.style.width}; height:${el.style.height};\"`;
       content += `<div ${style}>${html}</div>\n`;
     });
 
