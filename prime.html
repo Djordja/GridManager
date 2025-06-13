@@ -85,12 +85,21 @@
       user-select: none;
     }
     .canvas-icon, .components-icon {
-      position: absolute;
+      position: fixed;
       top: 10px;
       right: 10px;
       font-size: 24px;
       cursor: pointer;
       z-index: 9999;
+    }
+    .sections-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .sections-grid .section {
+      flex: 1 1 300px;
     }
     .draggable-component { cursor: grab; display: inline-block; margin: 0.25rem; }
     .export-button {
@@ -138,6 +147,9 @@
       <div class="draggable-component" draggable="true" data-html='<button class="btn btn-danger">Danger</button>'><button class="btn btn-danger">Danger</button></div>
       <div class="draggable-component" draggable="true" data-html='<input type="text" class="form-control" placeholder="Unesi tekst">'><input type="text" class="form-control" placeholder="Unesi tekst" style="width: 200px;"></div>
     </div>
+
+
+    <div class="sections-grid">
 
     <div class="section">
       <h5>Default</h5>
@@ -261,8 +273,11 @@
         </button>
       </div>
     </div>
+
+    </div> <!-- end sections-grid -->
   </div>
 </div>
+
 
 <div class="canvas-view" id="canvas-view">
   <div class="canvas" id="drop-zone"></div>
