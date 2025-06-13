@@ -85,6 +85,8 @@
       position: absolute;
       cursor: move;
       user-select: none;
+      display: inline-block;
+      box-sizing: border-box;
     }
 
     .canvas-icon, .components-icon {
@@ -249,6 +251,9 @@
     wrapper.style.left = x + 'px';
     wrapper.style.top = y + 'px';
     dropZone.appendChild(wrapper);
+    const rect = wrapper.getBoundingClientRect();
+    wrapper.style.width = rect.width + 'px';
+    wrapper.style.height = rect.height + 'px';
     makeDraggable(wrapper);
   }
 
@@ -259,24 +264,46 @@
 
   function makeDraggable(el) {
     let isDragging = false;
+    let isResizing = false;
     let offsetX, offsetY;
+    let startX, startY, startW, startH;
+
     el.addEventListener("mousedown", function (e) {
+      const rect = el.getBoundingClientRect();
+      const nearRight = rect.right - e.clientX < 10;
+      const nearBottom = rect.bottom - e.clientY < 10;
+      if (nearRight || nearBottom) {
+        isResizing = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        startW = rect.width;
+        startH = rect.height;
+        e.preventDefault();
+        return;
+      }
       isDragging = true;
       offsetX = e.clientX - el.offsetLeft;
       offsetY = e.clientY - el.offsetTop;
       el.style.zIndex = "1000";
     });
+
     document.addEventListener("mousemove", function (e) {
       if (isDragging) {
         el.style.left = (e.clientX - offsetX) + "px";
         el.style.top = (e.clientY - offsetY) + "px";
+      } else if (isResizing) {
+        el.style.width = (startW + (e.clientX - startX)) + "px";
+        el.style.height = (startH + (e.clientY - startY)) + "px";
       }
     });
+
     document.addEventListener("mouseup", function () {
       isDragging = false;
+      isResizing = false;
       el.style.zIndex = "1";
     });
   }
+
 
   function resetCanvas() {
     dropZone.innerHTML = "";
@@ -287,7 +314,7 @@
     let content = "";
     components.forEach(el => {
       const html = el.innerHTML;
-      const style = `style=\"position:absolute; left:${el.style.left}; top:${el.style.top};\"`;
+      const style = `style=\"position:absolute; left:${el.style.left}; top:${el.style.top}; width:${el.style.width}; height:${el.style.height};\"`;
       content += `<div ${style}>${html}</div>\n`;
     });
 
