@@ -148,7 +148,7 @@
       <a class="nav-link" href="#">Menu</a>
       <a class="nav-link" href="#">Message</a>
       <a class="nav-link" href="#">File</a>
-      <a class="nav-link" href="#">Chart</a>
+      <a class="nav-link" href="#" data-target="chart-section">Chart</a>
       <a class="nav-link" href="#">Misc</a>
     </nav>
     <h6 class="mt-3">PRIME BLOCKS</h6>
@@ -415,6 +415,36 @@
 
       </div> <!-- end table sections-grid -->
     </div> <!-- end table-section -->
+
+    <div id="chart-section" class="main-section" style="display:none;">
+      <h4>Charts</h4>
+      <div class="sections-grid">
+        <div class="section">
+          <h5>Bar Chart</h5>
+          <div class="draggable-component" draggable="true">
+            <img src="https://quickchart.io/chart?c=%7B%22type%22%3A%22bar%22%2C%22data%22%3A%7B%22labels%22%3A%5B%22A%22%2C%22B%22%2C%22C%22%2C%22D%22%5D%2C%22datasets%22%3A%5B%7B%22label%22%3A%22Data%22%2C%22data%22%3A%5B10%2C20%2C30%2C40%5D%7D%5D%7D%7D" width="300" height="200" alt="Bar Chart">
+          </div>
+        </div>
+        <div class="section">
+          <h5>Line Chart</h5>
+          <div class="draggable-component" draggable="true">
+            <img src="https://quickchart.io/chart?c=%7B%22type%22%3A%22line%22%2C%22data%22%3A%7B%22labels%22%3A%5B%22Jan%22%2C%22Feb%22%2C%22Mar%22%2C%22Apr%22%5D%2C%22datasets%22%3A%5B%7B%22label%22%3A%22Sales%22%2C%22data%22%3A%5B3%2C7%2C4%2C8%5D%7D%5D%7D%7D" width="300" height="200" alt="Line Chart">
+          </div>
+        </div>
+        <div class="section">
+          <h5>Pie Chart</h5>
+          <div class="draggable-component" draggable="true">
+            <img src="https://quickchart.io/chart?c=%7B%22type%22%3A%22pie%22%2C%22data%22%3A%7B%22labels%22%3A%5B%22Red%22%2C%22Blue%22%2C%22Yellow%22%5D%2C%22datasets%22%3A%5B%7B%22data%22%3A%5B30%2C50%2C20%5D%7D%5D%7D%7D" width="300" height="200" alt="Pie Chart">
+          </div>
+        </div>
+        <div class="section">
+          <h5>Doughnut Chart</h5>
+          <div class="draggable-component" draggable="true">
+            <img src="https://quickchart.io/chart?c=%7B%22type%22%3A%22doughnut%22%2C%22data%22%3A%7B%22labels%22%3A%5B%221Q%22%2C%222Q%22%2C%223Q%22%2C%224Q%22%5D%2C%22datasets%22%3A%5B%7B%22data%22%3A%5B25%2C25%2C25%2C25%5D%7D%5D%7D%7D" width="300" height="200" alt="Doughnut Chart">
+          </div>
+        </div>
+      </div> <!-- end chart sections-grid -->
+    </div> <!-- end chart-section -->
 
   </div> <!-- end main-content -->
 </div> <!-- end component-view -->
