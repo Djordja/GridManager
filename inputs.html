@@ -86,15 +86,10 @@
       cursor: move;
       user-select: none;
       display: inline-block;
-    }
-    .resize-handle {
-      width: 10px;
-      height: 10px;
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      background: #666;
-      cursor: se-resize;
+
+      resize: both;
+      overflow: hidden;
+
     }
 
     .canvas-icon, .components-icon {
@@ -263,7 +258,7 @@
     wrapper.style.width = rect.width + 'px';
     wrapper.style.height = rect.height + 'px';
     makeDraggable(wrapper);
-    makeResizable(wrapper);
+
   }
 
   function openCanvas() {
@@ -275,7 +270,12 @@
     let isDragging = false;
     let offsetX, offsetY;
     el.addEventListener("mousedown", function (e) {
-      if (e.target.classList.contains("resize-handle")) return;
+
+      const rect = el.getBoundingClientRect();
+      const isResizeZone =
+        rect.right - e.clientX < 10 || rect.bottom - e.clientY < 10;
+      if (isResizeZone) return;
+
       isDragging = true;
       offsetX = e.clientX - el.offsetLeft;
       offsetY = e.clientY - el.offsetTop;
@@ -293,33 +293,7 @@
     });
   }
 
-  function makeResizable(el) {
-    const handle = document.createElement("div");
-    handle.classList.add("resize-handle");
-    el.appendChild(handle);
 
-    let isResizing = false;
-    let startX, startY, startWidth, startHeight;
-
-    handle.addEventListener("mousedown", function(e) {
-      e.stopPropagation();
-      isResizing = true;
-      startX = e.clientX;
-      startY = e.clientY;
-      startWidth = parseInt(document.defaultView.getComputedStyle(el).width, 10);
-      startHeight = parseInt(document.defaultView.getComputedStyle(el).height, 10);
-    });
-
-    document.addEventListener("mousemove", function(e) {
-      if (!isResizing) return;
-      el.style.width = (startWidth + e.clientX - startX) + "px";
-      el.style.height = (startHeight + e.clientY - startY) + "px";
-    });
-
-    document.addEventListener("mouseup", function() {
-      isResizing = false;
-    });
-  }
 
   function resetCanvas() {
     dropZone.innerHTML = "";
