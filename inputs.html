@@ -86,8 +86,10 @@
       cursor: move;
       user-select: none;
       display: inline-block;
+
       resize: both;
       overflow: hidden;
+
     }
 
     .canvas-icon, .components-icon {
@@ -256,6 +258,7 @@
     wrapper.style.width = rect.width + 'px';
     wrapper.style.height = rect.height + 'px';
     makeDraggable(wrapper);
+
   }
 
   function openCanvas() {
@@ -267,10 +270,12 @@
     let isDragging = false;
     let offsetX, offsetY;
     el.addEventListener("mousedown", function (e) {
+
       const rect = el.getBoundingClientRect();
       const isResizeZone =
         rect.right - e.clientX < 10 || rect.bottom - e.clientY < 10;
       if (isResizeZone) return;
+
       isDragging = true;
       offsetX = e.clientX - el.offsetLeft;
       offsetY = e.clientY - el.offsetTop;
@@ -287,6 +292,7 @@
       el.style.zIndex = "1";
     });
   }
+
 
 
   function resetCanvas() {
