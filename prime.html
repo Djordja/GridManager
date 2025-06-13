@@ -83,16 +83,15 @@
                         linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
       background-size: calc(100% / 12) 40px;
     }
+
     .canvas-component {
       position: absolute;
       cursor: move;
       user-select: none;
       display: inline-block;
-
-      resize: both;
-      overflow: hidden;
-
+      box-sizing: border-box;
     }
+
 
     .canvas-icon, .components-icon {
       position: fixed;
@@ -403,6 +402,7 @@
     dropComponentToCanvas(e.offsetX, e.offsetY);
   });
 
+
   function dropComponentToCanvas(x, y) {
     if (!draggedHTML) return;
     const wrapper = document.createElement("div");
@@ -418,40 +418,57 @@
     wrapper.style.width = rect.width + 'px';
     wrapper.style.height = rect.height + 'px';
     makeDraggable(wrapper);
-
   }
+
 
   function openCanvas() {
     componentView.style.display = "none";
     canvasView.style.display = "block";
   }
 
-  function makeDraggable(el) {
 
+  function makeDraggable(el) {
     let isDragging = false;
+    let isResizing = false;
     let offsetX, offsetY;
+    let startX, startY, startW, startH;
+
     el.addEventListener("mousedown", function (e) {
       const rect = el.getBoundingClientRect();
-      const isResizeZone =
-        rect.right - e.clientX < 10 || rect.bottom - e.clientY < 10;
-      if (isResizeZone) return;
-
+      const nearRight = rect.right - e.clientX < 10;
+      const nearBottom = rect.bottom - e.clientY < 10;
+      if (nearRight || nearBottom) {
+        isResizing = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        startW = rect.width;
+        startH = rect.height;
+        e.preventDefault();
+        return;
+      }
       isDragging = true;
       offsetX = e.clientX - el.offsetLeft;
       offsetY = e.clientY - el.offsetTop;
       el.style.zIndex = "1000";
     });
+
     document.addEventListener("mousemove", function (e) {
       if (isDragging) {
         el.style.left = (e.clientX - offsetX) + "px";
         el.style.top = (e.clientY - offsetY) + "px";
+      } else if (isResizing) {
+        el.style.width = (startW + (e.clientX - startX)) + "px";
+        el.style.height = (startH + (e.clientY - startY)) + "px";
       }
     });
+
     document.addEventListener("mouseup", function () {
       isDragging = false;
+      isResizing = false;
       el.style.zIndex = "1";
     });
   }
+
 
 
 
@@ -462,11 +479,13 @@
   function exportCanvas() {
     const components = dropZone.querySelectorAll(".canvas-component");
     let content = "";
+
     components.forEach(el => {
       const html = el.innerHTML;
       const style = `style=\"position:absolute; left:${el.style.left}; top:${el.style.top}; width:${el.style.width}; height:${el.style.height};\"`;
       content += `<div ${style}>${html}</div>\n`;
     });
+
 
     const fullHtml = `<!DOCTYPE html>
 <html lang=\"en\">
