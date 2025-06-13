@@ -296,11 +296,13 @@
   const canvasIcon = document.getElementById("canvas-icon");
   const componentsIcon = document.getElementById("components-icon");
 
+
   document.querySelectorAll(".draggable-component").forEach(el => {
     el.addEventListener("dragstart", e => {
       draggedHTML = e.target.getAttribute("data-html") || e.target.outerHTML;
     });
   });
+
 
   document.addEventListener("dragover", e => e.preventDefault());
   canvasIcon.addEventListener("drop", e => {
@@ -323,6 +325,9 @@
     const wrapper = document.createElement("div");
     wrapper.classList.add("canvas-component");
     wrapper.innerHTML = draggedHTML;
+    wrapper.removeAttribute("draggable");
+    wrapper.querySelectorAll('[draggable]').forEach(el => el.removeAttribute('draggable'));
+    wrapper.addEventListener('dragstart', e => e.preventDefault());
     wrapper.style.left = x + 'px';
     wrapper.style.top = y + 'px';
     dropZone.appendChild(wrapper);
