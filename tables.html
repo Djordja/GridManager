@@ -82,6 +82,7 @@
       background-size: calc(100% / 12) 40px;
     }
 
+
     .canvas-component {
       position: absolute;
       cursor: move;
@@ -112,6 +113,7 @@
       top: 10px;
       right: 10px;
       font-size: 24px;
+
       cursor: pointer;
       z-index: 9999;
     }
@@ -291,6 +293,7 @@
   });
 
 
+
   function dropComponentToCanvas(x, y) {
     if (!draggedHTML) return;
     const wrapper = document.createElement("div");
@@ -310,6 +313,7 @@
     dropZone.appendChild(wrapper);
     const rect = wrapper.getBoundingClientRect();
     wrapper.style.width = rect.width + 'px';
+
     wrapper.style.height = rect.height + 'px';
     makeDraggable(wrapper);
   }
@@ -319,6 +323,7 @@
     componentView.style.display = "none";
     canvasView.style.display = "block";
   }
+
 
 
   function makeDraggable(el) {
@@ -363,6 +368,7 @@
       }
     });
 
+
     document.addEventListener("mouseup", function () {
       isDragging = false;
       isResizing = false;
@@ -385,6 +391,7 @@
     dropZone.innerHTML = "";
   }
 
+
   function exportCanvas() {
     const components = dropZone.querySelectorAll(".canvas-component");
     let content = "";
@@ -394,6 +401,7 @@
       const style = `style=\"position:absolute; left:${el.style.left}; top:${el.style.top}; width:${el.style.width}; height:${el.style.height};\"`;
       content += `<div ${style}>${html}</div>\n`;
     });
+
 
 
     const fullHtml = `<!DOCTYPE html>
