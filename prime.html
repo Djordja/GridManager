@@ -84,6 +84,7 @@
       background-size: calc(100% / 12) 40px;
     }
 
+
     .canvas-component {
       position: absolute;
       cursor: move;
@@ -114,6 +115,7 @@
       top: 10px;
       right: 10px;
       font-size: 24px;
+
       cursor: pointer;
       z-index: 9999;
     }
@@ -705,6 +707,7 @@
   });
 
 
+
   function dropComponentToCanvas(x, y) {
     if (!draggedHTML) return;
     const wrapper = document.createElement("div");
@@ -724,6 +727,7 @@
     dropZone.appendChild(wrapper);
     const rect = wrapper.getBoundingClientRect();
     wrapper.style.width = rect.width + 'px';
+
     wrapper.style.height = rect.height + 'px';
     makeDraggable(wrapper);
   }
@@ -733,6 +737,7 @@
     componentView.style.display = "none";
     canvasView.style.display = "block";
   }
+
 
 
   function makeDraggable(el) {
@@ -762,7 +767,6 @@
       el.style.zIndex = "1000";
     });
 
-
     document.addEventListener("mousemove", function (e) {
       if (isDragging) {
         el.style.left = (e.clientX - offsetX) + "px";
@@ -774,15 +778,9 @@
         el.style.height = newHeight + "px";
 
         const content = el.querySelector('.component-content');
-        if (content) {
-          Array.from(content.children).forEach(child => {
-            child.style.width = newWidth + 'px';
-            child.style.height = newHeight + 'px';
-          });
-        }
+        if (content) updateSizeRecursively(content, newWidth, newHeight);
       }
     });
-
 
     document.addEventListener("mouseup", function () {
       isDragging = false;
@@ -791,12 +789,24 @@
     });
   }
 
+  function updateSizeRecursively(elem, width, height) {
+    if (!elem) return;
+    const tag = elem.tagName ? elem.tagName.toLowerCase() : "";
+    if (["input", "button", "textarea", "select", "table", "img", "canvas"].includes(tag) || elem.style.width || elem.style.height) {
+      elem.style.width = width + "px";
+      elem.style.height = height + "px";
+    }
+    Array.from(elem.children).forEach(child => updateSizeRecursively(child, width, height));
+  }
+
+
 
 
 
   function resetCanvas() {
     dropZone.innerHTML = "";
   }
+
 
   function exportCanvas() {
     const components = dropZone.querySelectorAll(".canvas-component");
@@ -808,6 +818,7 @@
       const style = `style=\"position:absolute; left:${el.style.left}; top:${el.style.top}; width:${el.style.width}; height:${el.style.height};\"`;
       content += `<div ${style}>${html}</div>\n`;
     });
+
 
 
     const fullHtml = `<!DOCTYPE html>
