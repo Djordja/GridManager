@@ -90,8 +90,24 @@
       user-select: none;
       display: inline-block;
       box-sizing: border-box;
+      border: 1px dashed transparent;
     }
-
+    .canvas-component:hover {
+      border-color: #6c757d;
+    }
+    .resize-handle {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 10px;
+      height: 10px;
+      background: #007bff;
+      cursor: se-resize;
+    }
+    .component-content {
+      width: 100%;
+      height: 100%;
+    }
 
     .canvas-icon, .components-icon {
       position: fixed;
@@ -693,9 +709,15 @@
     if (!draggedHTML) return;
     const wrapper = document.createElement("div");
     wrapper.classList.add("canvas-component");
-    wrapper.innerHTML = draggedHTML;
-    wrapper.removeAttribute("draggable");
-    wrapper.querySelectorAll('[draggable]').forEach(el => el.removeAttribute('draggable'));
+    const content = document.createElement("div");
+    content.classList.add("component-content");
+    content.innerHTML = draggedHTML;
+    content.removeAttribute("draggable");
+    content.querySelectorAll('[draggable]').forEach(el => el.removeAttribute('draggable'));
+    const handle = document.createElement("div");
+    handle.classList.add("resize-handle");
+    wrapper.appendChild(content);
+    wrapper.appendChild(handle);
     wrapper.addEventListener('dragstart', e => e.preventDefault());
     wrapper.style.left = x + 'px';
     wrapper.style.top = y + 'px';
@@ -714,24 +736,26 @@
 
 
   function makeDraggable(el) {
+    const handle = el.querySelector('.resize-handle');
     let isDragging = false;
     let isResizing = false;
     let offsetX, offsetY;
     let startX, startY, startW, startH;
 
-    el.addEventListener("mousedown", function (e) {
-      const rect = el.getBoundingClientRect();
-      const nearRight = rect.right - e.clientX < 10;
-      const nearBottom = rect.bottom - e.clientY < 10;
-      if (nearRight || nearBottom) {
+    if (handle) {
+      handle.addEventListener('mousedown', function(e) {
         isResizing = true;
         startX = e.clientX;
         startY = e.clientY;
-        startW = rect.width;
-        startH = rect.height;
+        startW = el.offsetWidth;
+        startH = el.offsetHeight;
+        e.stopPropagation();
         e.preventDefault();
-        return;
-      }
+      });
+    }
+
+    el.addEventListener("mousedown", function (e) {
+      if (e.target === handle) return;
       isDragging = true;
       offsetX = e.clientX - el.offsetLeft;
       offsetY = e.clientY - el.offsetTop;
@@ -743,8 +767,13 @@
         el.style.left = (e.clientX - offsetX) + "px";
         el.style.top = (e.clientY - offsetY) + "px";
       } else if (isResizing) {
-        el.style.width = (startW + (e.clientX - startX)) + "px";
-        el.style.height = (startH + (e.clientY - startY)) + "px";
+        const newWidth = startW + (e.clientX - startX);
+        const newHeight = startH + (e.clientY - startY);
+        el.style.width = newWidth + "px";
+        el.style.height = newHeight + "px";
+
+        const content = el.querySelector('.component-content');
+        if (content) updateSizeRecursively(content, newWidth, newHeight);
       }
     });
 
@@ -753,6 +782,16 @@
       isResizing = false;
       el.style.zIndex = "1";
     });
+  }
+
+  function updateSizeRecursively(elem, width, height) {
+    if (!elem) return;
+    const tag = elem.tagName ? elem.tagName.toLowerCase() : "";
+    if (["input", "button", "textarea", "select", "table", "img", "canvas"].includes(tag) || elem.style.width || elem.style.height) {
+      elem.style.width = width + "px";
+      elem.style.height = height + "px";
+    }
+    Array.from(elem.children).forEach(child => updateSizeRecursively(child, width, height));
   }
 
 
@@ -767,7 +806,8 @@
     let content = "";
 
     components.forEach(el => {
-      const html = el.innerHTML;
+      const inner = el.querySelector('.component-content');
+      const html = inner ? inner.innerHTML : el.innerHTML;
       const style = `style=\"position:absolute; left:${el.style.left}; top:${el.style.top}; width:${el.style.width}; height:${el.style.height};\"`;
       content += `<div ${style}>${html}</div>\n`;
     });
