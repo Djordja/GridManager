@@ -316,6 +316,7 @@
       el.style.zIndex = "1000";
     });
 
+
     document.addEventListener("mousemove", function (e) {
       if (isDragging) {
         el.style.left = (e.clientX - offsetX) + "px";
@@ -335,6 +336,7 @@
         }
       }
     });
+
 
     document.addEventListener("mouseup", function () {
       isDragging = false;
