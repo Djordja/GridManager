@@ -762,15 +762,27 @@
       el.style.zIndex = "1000";
     });
 
+
     document.addEventListener("mousemove", function (e) {
       if (isDragging) {
         el.style.left = (e.clientX - offsetX) + "px";
         el.style.top = (e.clientY - offsetY) + "px";
       } else if (isResizing) {
-        el.style.width = (startW + (e.clientX - startX)) + "px";
-        el.style.height = (startH + (e.clientY - startY)) + "px";
+        const newWidth = startW + (e.clientX - startX);
+        const newHeight = startH + (e.clientY - startY);
+        el.style.width = newWidth + "px";
+        el.style.height = newHeight + "px";
+
+        const content = el.querySelector('.component-content');
+        if (content) {
+          Array.from(content.children).forEach(child => {
+            child.style.width = newWidth + 'px';
+            child.style.height = newHeight + 'px';
+          });
+        }
       }
     });
+
 
     document.addEventListener("mouseup", function () {
       isDragging = false;
