@@ -1,0 +1,121 @@
+body {
+    background-color: #f5f6fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar {
+    width: 260px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+}
+
+.sidebar .nav-link.active,
+.sidebar .nav-link:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.sidebar-logo {
+    width: 42px;
+    height: 42px;
+    line-height: 42px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.avatar-small {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.75rem;
+}
+
+.kanban-column {
+    height: 100%;
+}
+
+.kanban-body {
+    min-height: 380px;
+    border: 2px dashed transparent;
+    transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.kanban-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.kanban-header h2 {
+    font-weight: 600;
+}
+
+.kanban-body.drag-over {
+    border-color: #0d6efd;
+    background-color: rgba(13, 110, 253, 0.05);
+}
+
+.task-card {
+    cursor: grab;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    background: linear-gradient(145deg, #ffffff, #f8f9ff);
+}
+
+.task-card:active {
+    cursor: grabbing;
+}
+
+.task-card.dragging {
+    opacity: 0.6;
+    transform: rotate(1deg) scale(0.98);
+}
+
+.min-vh-50 {
+    min-height: 50vh;
+}
+
+.toast {
+    border-radius: 1rem;
+}
+
+.card {
+    border-radius: 1rem;
+}
+
+.card .form-label {
+    font-weight: 600;
+}
+
+.badge {
+    letter-spacing: 0.04em;
+}
+
+.form-select-lg, .form-control {
+    border-radius: 0.75rem;
+}
+
+@media (max-width: 992px) {
+    .sidebar {
+        display: none;
+    }
+
+    main {
+        min-height: 100vh;
+    }
+}

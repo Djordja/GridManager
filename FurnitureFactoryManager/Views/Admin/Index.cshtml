@@ -1,0 +1,176 @@
+@model FurnitureFactoryManager.Models.AdminBoardViewModel
+@{
+    ViewData["Title"] = "Radna tabla";
+    var grouped = Model.Tasks
+        .GroupBy(task => task.Status)
+        .ToDictionary(g => g.Key, g => g.ToList());
+}
+
+<div class="row gy-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body d-flex flex-column flex-lg-row gap-3 align-items-lg-end">
+                <div class="flex-grow-1">
+                    <label for="projectSelect" class="form-label text-muted text-uppercase small">Aktivan projekat</label>
+                    <form method="get" asp-action="Index" asp-controller="Admin" class="d-flex flex-column flex-md-row gap-3">
+                        <select id="projectSelect" name="projectId" class="form-select form-select-lg" onchange="this.form.submit()">
+                            @foreach (var project in Model.Projects)
+                            {
+                                <option value="@project.Id" @(project.Id == Model.SelectedProjectId ? "selected" : string.Empty)>@project.Name</option>
+                            }
+                        </select>
+                        <div class="text-muted small flex-grow-1">
+                            @Model.Projects.FirstOrDefault(p => p.Id == Model.SelectedProjectId)?.Description
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="collapse" data-bs-target="#newTaskForm" aria-expanded="false" aria-controls="newTaskForm">
+                        + Novi zadatak
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="collapse @(ViewBag.FormErrors != null || ViewBag.FormSuccess != null ? "show" : string.Empty)" id="newTaskForm">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h2 class="h5 mb-4">Kreiraj zadatak</h2>
+                    @if (ViewBag.FormErrors != null)
+                    {
+                        <div class="alert alert-danger">@ViewBag.FormErrors</div>
+                    }
+                    @if (ViewBag.FormSuccess != null)
+                    {
+                        <div class="alert alert-success">@ViewBag.FormSuccess</div>
+                    }
+                    <form asp-action="AddTask" asp-controller="Admin" method="post" class="row g-3">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="ProjectId" value="@Model.SelectedProjectId" />
+                        <div class="col-md-6">
+                            <label class="form-label" for="Title">Naziv zadatka</label>
+                            <input class="form-control" id="Title" name="Title" placeholder="npr. Krojenje navlaka" value="@Model.NewTask.Title" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="AssignedTo">Zaduženi</label>
+                            <input class="form-control" id="AssignedTo" name="AssignedTo" placeholder="Ime zaposlenog" value="@Model.NewTask.AssignedTo" required />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" for="Description">Opis</label>
+                            <textarea class="form-control" id="Description" name="Description" rows="3" placeholder="Detalji zadatka">@Model.NewTask.Description</textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Status">Status</label>
+                            <select class="form-select" id="Status" name="Status">
+                                @foreach (var status in Enum.GetValues(typeof(FurnitureFactoryManager.Models.TaskStatus)).Cast<FurnitureFactoryManager.Models.TaskStatus>())
+                                {
+                                    <option value="@status" @(status == Model.NewTask.Status ? "selected" : string.Empty)>@status</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-12 d-flex justify-content-end">
+                            <button class="btn btn-success btn-lg" type="submit">Sačuvaj zadatak</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mt-1">
+    <div class="col-12 col-lg-4">
+        <div class="kanban-column" data-status="ToDo">
+            <div class="kanban-header bg-white shadow-sm rounded-top p-3">
+                <h2 class="h5 mb-0">To do</h2>
+                <small class="text-muted">Planirane aktivnosti</small>
+            </div>
+            <div class="kanban-body bg-white rounded-bottom p-3 min-vh-50" data-dropzone>
+                @{
+                    var todoTasks = grouped.GetValueOrDefault(FurnitureFactoryManager.Models.TaskStatus.ToDo, new List<FurnitureFactoryManager.Models.ProjectTask>());
+                    if (!todoTasks.Any())
+                    {
+                        <p class="text-muted small mb-0">Nema zadataka u planu.</p>
+                    }
+                    else
+                    {
+                        foreach (var task in todoTasks)
+                        {
+                            <partial name="_TaskCard" model="task" />
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-4">
+        <div class="kanban-column" data-status="InProgress">
+            <div class="kanban-header bg-white shadow-sm rounded-top p-3">
+                <h2 class="h5 mb-0">U toku</h2>
+                <small class="text-muted">Aktivni zadaci</small>
+            </div>
+            <div class="kanban-body bg-white rounded-bottom p-3 min-vh-50" data-dropzone>
+                @{
+                    var inProgressTasks = grouped.GetValueOrDefault(FurnitureFactoryManager.Models.TaskStatus.InProgress, new List<FurnitureFactoryManager.Models.ProjectTask>());
+                    if (!inProgressTasks.Any())
+                    {
+                        <p class="text-muted small mb-0">Trenutno nema aktivnih zadataka.</p>
+                    }
+                    else
+                    {
+                        foreach (var task in inProgressTasks)
+                        {
+                            <partial name="_TaskCard" model="task" />
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-4">
+        <div class="kanban-column" data-status="Done">
+            <div class="kanban-header bg-white shadow-sm rounded-top p-3">
+                <h2 class="h5 mb-0">Završeno</h2>
+                <small class="text-muted">Gotovi zadaci</small>
+            </div>
+            <div class="kanban-body bg-white rounded-bottom p-3 min-vh-50" data-dropzone>
+                @{
+                    var doneTasks = grouped.GetValueOrDefault(FurnitureFactoryManager.Models.TaskStatus.Done, new List<FurnitureFactoryManager.Models.ProjectTask>());
+                    if (!doneTasks.Any())
+                    {
+                        <p class="text-muted small mb-0">Još uvek nema gotovih zadataka.</p>
+                    }
+                    else
+                    {
+                        foreach (var task in doneTasks)
+                        {
+                            <partial name="_TaskCard" model="task" />
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="statusToast" class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                Status zadatka je ažuriran.
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        window.boardSettings = {
+            updateUrl: '@Url.Action("UpdateStatus", "Admin")'
+        };
+    </script>
+}

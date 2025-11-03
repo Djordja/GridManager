@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Fabrika nameštaja</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <div class="d-flex">
+        <aside class="sidebar bg-dark text-white p-4">
+            <div class="d-flex align-items-center mb-4">
+                <div class="me-3 rounded-circle bg-primary text-center text-white fw-bold sidebar-logo">FF</div>
+                <div>
+                    <h5 class="mb-0">Fabrika nameštaja</h5>
+                    <small class="text-white-50">Admin tabla</small>
+                </div>
+            </div>
+            <nav class="nav flex-column gap-2">
+                <a class="nav-link active" aria-current="page" asp-controller="Admin" asp-action="Index">Pregled zadataka</a>
+                <a class="nav-link" href="#">Projekti</a>
+                <a class="nav-link" href="#">Zaposleni</a>
+                <a class="nav-link" href="#">Izveštaji</a>
+            </nav>
+            <div class="mt-auto pt-4 small text-white-50">
+                &copy; @DateTime.Now.Year Fabrika nameštaja
+            </div>
+        </aside>
+        <main class="flex-grow-1 min-vh-100 bg-light">
+            <header class="d-flex justify-content-between align-items-center py-3 px-4 border-bottom bg-white">
+                <h1 class="h4 mb-0">@ViewData["Title"]</h1>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="text-muted small">Dobrodošli, administrator</span>
+                    <div class="rounded-circle bg-primary text-white fw-bold avatar">AD</div>
+                </div>
+            </header>
+            <section class="p-4">
+                @RenderBody()
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="~/js/board.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
